@@ -10,23 +10,23 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
-public class UserService {
+public class UserService implements UserServiceIntr{
 
     @Autowired
     private UserRepository userRepository;
 
-
+    @Transactional
+    @Override
     public void save(User user) {
         userRepository.save(user);
     }
 
-
+    @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
 
-
+    @Override
     public User getById(long id) {
         Optional<User> optionalUser = userRepository.findById(id);
         User user = null;
@@ -38,7 +38,8 @@ public class UserService {
         return user;
     }
 
-
+    @Transactional
+    @Override
     public void deleteViaId(long id) {
         userRepository.deleteById(id);
     }

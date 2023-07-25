@@ -8,18 +8,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import ru.chuldum.entity.User;
-import ru.chuldum.repository.UserRepository;
 import ru.chuldum.service.UserService;
+import ru.chuldum.service.UserServiceIntr;
 
 @Controller
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserServiceIntr userServiceIntr;
 
     @GetMapping("/")
     public String viewHomePage(Model model) {
-        model.addAttribute("alluserlist", userService.getAllUser());
+        model.addAttribute("alluserlist", userServiceIntr.getAllUser());
         return "index";
     }
 
@@ -32,20 +32,20 @@ public class UserController {
 
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {
-        userService.save(user);
+        userServiceIntr.save(user);
         return "redirect:/";
     }
 
     @GetMapping("/showFormForUpdate/{id}")
     public String updateForm(@PathVariable(value = "id") long id, Model model) {
-        User user = userService.getById(id);
+        User user = userServiceIntr.getById(id);
         model.addAttribute("user", user);
         return "update";
     }
 
     @GetMapping("deleteUser/{id}")
     public String deleteThroughId(@PathVariable(value = "id") long id) {
-        userService.deleteViaId(id);
+        userServiceIntr.deleteViaId(id);
         return "redirect:/";
     }
 }
